@@ -1,12 +1,13 @@
 
 
+import 'package:desiree/Presentation/Authentication/register_password.dart';
 import 'package:desiree/Presentation/Authentication/register_screen.dart';
+import 'package:desiree/Presentation/Authentication/register_summary.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../Components/background.dart';
 import '../Components/buttons.dart';
-import '../Components/text_inputs.dart';
 import '../TextConfig/text_config.dart';
 import 'login.dart';
 
@@ -18,6 +19,26 @@ class RegisterBirthday extends StatefulWidget {
 }
 
 class _RegisterBirthdayState extends State<RegisterBirthday> {
+
+  DateTime _selectedDate = DateTime.now();
+
+  Future<void> _selectDate(BuildContext context, String dateType) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate ?? DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2101),
+    );
+
+    if (picked != null && picked != _selectedDate) {
+      setState(() {
+        _selectedDate = picked;
+        // You can use _selectedDate to update your model or perform any other actions
+        print('$dateType: ${_selectedDate.toLocal()}');
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BackgroundWidget(
@@ -32,9 +53,54 @@ class _RegisterBirthdayState extends State<RegisterBirthday> {
             const SizedBox(height: 10,),
             AppText.small('Your birthday will be shown only to people you add.',color: Color(0xFF727272)),
             SizedBox(height: 48,),
-            MainInput(text: 'Password'),
-            SizedBox(height: 18,),
-            MainInput(text: 'Re-enter password'),
+            Row(
+              children: [
+                Expanded(
+                  child: GestureDetector(
+                    onTap: (){
+                      _selectDate(context, 'DD');
+                    },
+                    child: dateBox(_selectedDate.day),
+                  ),
+                ),
+                const Text(
+                  ' / ',
+                  style: TextStyle(
+                    color: Color(0xFF727272),
+                    fontSize: 40,
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.w600,
+                    height: 0,
+                  ),
+                ),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: (){
+                      _selectDate(context, 'MMM');
+                    },
+                    child: dateBox(_selectedDate.month),
+                  ),
+                ),
+                const Text(
+                  ' / ',
+                  style: TextStyle(
+                    color: Color(0xFF727272),
+                    fontSize: 40,
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.w600,
+                    height: 0,
+                  ),
+                ),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: (){
+                      _selectDate(context, 'YYY');
+                    },
+                    child: dateBox(_selectedDate.year),
+                  ),
+                ),
+              ],
+            ),
 
             SizedBox(height: 48,),
 
@@ -47,7 +113,7 @@ class _RegisterBirthdayState extends State<RegisterBirthday> {
 
                     text: 'back',
                     onTap: () {
-                      Get.to(RegisterScreen());
+                      Get.to(RegisterPassword());
 
                     },),
                 ),
@@ -56,6 +122,7 @@ class _RegisterBirthdayState extends State<RegisterBirthday> {
                   child: PrimaryButton(
                     text: 'Next',
                     onTap: () {
+                      Get.to(RegisterSummary());
 
                     },),
                 ),
@@ -63,7 +130,7 @@ class _RegisterBirthdayState extends State<RegisterBirthday> {
             ),
 
 
-            SizedBox(height: MediaQuery.of(context).size.height * 0.18,),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.3,),
 
             bottomBox("Already have account?","Login",(){
               Get.to(Login());
@@ -75,5 +142,23 @@ class _RegisterBirthdayState extends State<RegisterBirthday> {
       ),
 
     );
+  }
+
+  Container dateBox(var dateToSelect) {
+    return Container(
+            padding: EdgeInsets.symmetric(vertical: 18),
+              decoration: ShapeDecoration(
+                color: Color(0x051D1D1F),
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(
+                    width: 1.50,
+                    strokeAlign: BorderSide.strokeAlignOutside,
+                    color: Color(0x161D1D1F),
+                  ),
+                  borderRadius: BorderRadius.circular(7),
+                ),
+            ),
+            child: Center(child: AppText.small(dateToSelect.toString())),
+            );
   }
 }

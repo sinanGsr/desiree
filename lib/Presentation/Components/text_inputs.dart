@@ -5,10 +5,11 @@ import '../TextConfig/text_config.dart';
 class MainInput extends StatelessWidget {
   final String text;
   final String? label;
+  final bool? enabled;
   const MainInput({
     super.key,
     required this.text,
-     this.label,
+     this.label, this.enabled,
   });
 
   @override
@@ -35,9 +36,11 @@ class MainInput extends StatelessWidget {
                 borderRadius: BorderRadius.circular(7),
               )),
           child: TextFormField(
+              enabled: enabled,
               decoration: InputDecoration(
                   isCollapsed: true,
                   hintText: label,
+
                   fillColor: Color(0x051D1D1F),
                   border: InputBorder.none
               )),

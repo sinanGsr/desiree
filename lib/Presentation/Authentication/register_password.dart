@@ -37,7 +37,9 @@ class _RegisterPasswordState extends State<RegisterPassword> {
             const SizedBox(height: 10,),
             AppText.small('It’ll be used only for verification and logging in.',color: Color(0xFF727272)),
             SizedBox(height: 48,),
-
+            MainInput(text: 'Password'),
+            SizedBox(height: 18,),
+            MainInput(text: 'Re-enter password'),
 
             SizedBox(height: 48,),
 
