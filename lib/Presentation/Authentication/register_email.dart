@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 
+import '../../Controllers/authentication_controller.dart';
 import '../Components/background.dart';
 import '../Components/buttons.dart';
 import '../Components/text_inputs.dart';
@@ -19,6 +20,8 @@ class RegisterEmail extends StatefulWidget {
 }
 
 class _RegisterEmailState extends State<RegisterEmail> {
+
+  final AuthController _authController = Get.put(AuthController());
   @override
   Widget build(BuildContext context) {
     return BackgroundWidget(
@@ -33,9 +36,25 @@ class _RegisterEmailState extends State<RegisterEmail> {
             const SizedBox(height: 10,),
             AppText.small('It’ll be used only for verification and logging in.',color: Color(0xFF727272)),
             SizedBox(height: 48,),
-            MainInput(text: 'Email'),
+
+           Obx(() =>  MainInput(text: 'Email',
+             onChanged:(val){
+               _authController.setEmail(val);
+               _authController.validateForTwoEmails(_authController.email.value,
+                   _authController.secondEmail.value);
+             } ,
+             errorMessage: _authController.emailError.value,
+           ),),
+
             SizedBox(height: 18,),
-            MainInput(text: 'Re-enter email'),
+            Obx(() => MainInput(text: 'Re-enter email',
+              onChanged: (val){
+                _authController.setSecondEmail(val);
+                _authController.validateForTwoEmails(_authController.email.value,
+                    _authController.secondEmail.value);
+              },
+              errorMessage: _authController.emailError.value,
+            ),),
 
             SizedBox(height: 48,),
 
@@ -57,7 +76,12 @@ class _RegisterEmailState extends State<RegisterEmail> {
                  child: PrimaryButton(
                    text: 'Next',
                    onTap: () {
-                     Get.to(RegisterPassword());
+                     _authController.validateForTwoEmails(_authController.email.value,
+                         _authController.secondEmail.value);
+                     if(_authController.emailError.value == ""
+                         && _authController.email.value != ""){
+                       Get.to(RegisterPassword());
+                     }
 
                    },),
                ),

@@ -6,10 +6,12 @@ class MainInput extends StatelessWidget {
   final String text;
   final String? label;
   final bool? enabled;
+  final String? errorMessage;
+  final Function(String)? onChanged;
   const MainInput({
     super.key,
     required this.text,
-     this.label, this.enabled,
+     this.label, this.enabled,  this.onChanged,  this.errorMessage,
   });
 
   @override
@@ -28,23 +30,42 @@ class MainInput extends StatelessWidget {
           decoration: ShapeDecoration(
               color: Color(0x051D1D1F),
               shape: RoundedRectangleBorder(
-                side: const BorderSide(
+                side:  BorderSide(
                   width: 1.50,
                   strokeAlign: BorderSide.strokeAlignOutside,
-                  color: Color(0x161D1D1F),
+                  color: errorMessage != "" && errorMessage != null ?Colors.red:Color(0x161D1D1F),
                 ),
                 borderRadius: BorderRadius.circular(7),
               )),
-          child: TextFormField(
-              enabled: enabled,
-              decoration: InputDecoration(
-                  isCollapsed: true,
-                  hintText: label,
+          child: Center(
+            child: TextFormField(
+              onChanged: (val){
+                onChanged!(val);
+              },
+                enabled: enabled,
+                decoration: InputDecoration(
+                    isCollapsed: true,
+                    hintText: label,
 
-                  fillColor: Color(0x051D1D1F),
-                  border: InputBorder.none
-              )),
-        )
+                    fillColor: Color(0x051D1D1F),
+                    border: InputBorder.none
+                )),
+          ),
+          
+        ),
+        if(errorMessage != null)
+          Padding(
+            padding: const EdgeInsets.only(left: 10,top: 5),
+            child: Text(errorMessage!,textAlign: TextAlign.start,
+                style:
+                const TextStyle(
+                  color: Colors.red,
+                  fontSize: 10,
+                  fontFamily: 'Krub',
+                  fontWeight: FontWeight.w500,
+                )
+            ),
+          )
       ],
     );
   }

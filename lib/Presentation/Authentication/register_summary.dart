@@ -5,7 +5,9 @@
 import 'package:desiree/Presentation/Components/background.dart';
 import 'package:desiree/Presentation/Components/buttons.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../../Controllers/authentication_controller.dart';
 import '../Components/text_inputs.dart';
 import '../TextConfig/text_config.dart';
 
@@ -18,6 +20,7 @@ class RegisterSummary extends StatefulWidget {
 
 class _RegisterSummaryState extends State<RegisterSummary> {
   bool _checkValue = false;
+  final AuthController _authController = Get.put(AuthController());
   @override
   Widget build(BuildContext context) {
     return BackgroundWidget(
@@ -28,13 +31,16 @@ class _RegisterSummaryState extends State<RegisterSummary> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            MainInput(text: 'Name',label: "Jhon",enabled: false,),
+            MainInput(text: 'Name',label: _authController.name.value,enabled: false,
+
+            ),
             SizedBox(height: 18,),
-            MainInput(text: 'surname',label: "Doe",enabled: false,),
+            MainInput(text: 'surname',label: _authController.surname.value,enabled: false),
             SizedBox(height: 18,),
-            MainInput(text: 'email',label: "JDoe@gmail.com",enabled: false,),
+            MainInput(text: 'email',label: _authController.email.value,enabled: false,),
             SizedBox(height: 18,),
-            MainInput(text: 'password',label: "Doe123456",enabled: false,),
+            MainInput(text: 'password',label: _authController.password.value,
+              enabled: false,),
             SizedBox(height: 18,),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -102,6 +108,7 @@ class _RegisterSummaryState extends State<RegisterSummary> {
                   setState(() {
                     _checkValue = !_checkValue;
                   });
+
 
                 }),
                 SizedBox(

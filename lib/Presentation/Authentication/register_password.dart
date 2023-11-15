@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 
+import '../../Controllers/authentication_controller.dart';
 import '../Components/background.dart';
 import '../Components/buttons.dart';
 import '../Components/text_inputs.dart';
@@ -23,6 +24,7 @@ class RegisterPassword extends StatefulWidget {
 }
 
 class _RegisterPasswordState extends State<RegisterPassword> {
+  final AuthController _authController = Get.put(AuthController());
   @override
   Widget build(BuildContext context) {
     return BackgroundWidget(
@@ -37,9 +39,21 @@ class _RegisterPasswordState extends State<RegisterPassword> {
             const SizedBox(height: 10,),
             AppText.small('It’ll be used only for verification and logging in.',color: Color(0xFF727272)),
             SizedBox(height: 48,),
-            MainInput(text: 'Password'),
+            Obx(() => MainInput(text: 'Password',
+              onChanged: (val){
+                _authController.setPassword(val);
+              },
+              errorMessage: _authController.emailError.value,
+            ),),
+
             SizedBox(height: 18,),
-            MainInput(text: 'Re-enter password'),
+
+             Obx(() => MainInput(text: 'Re-enter password',
+               onChanged: (val){
+                 _authController.setSecondPassword(val);
+               },
+               errorMessage: _authController.emailError.value,
+             ),),
 
             SizedBox(height: 48,),
 
@@ -61,7 +75,13 @@ class _RegisterPasswordState extends State<RegisterPassword> {
                   child: PrimaryButton(
                     text: 'Next',
                     onTap: () {
-                      Get.to(RegisterBirthday());
+                      _authController.validateForTwoEmails(_authController.password.value,
+                          _authController.secondPassword.value);
+                      if(_authController.emailError.value == ""
+                          && _authController.password.value != ""){
+                        Get.to(RegisterBirthday());
+                      }
+
 
                     },),
                 ),
