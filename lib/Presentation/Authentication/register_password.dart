@@ -4,9 +4,8 @@
 
 import 'package:desiree/Presentation/Authentication/register_birthday.dart';
 import 'package:desiree/Presentation/Authentication/register_email.dart';
-import 'package:desiree/Presentation/Authentication/register_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
+
 import 'package:get/get.dart';
 
 import '../../Controllers/authentication_controller.dart';
@@ -46,7 +45,7 @@ class _RegisterPasswordState extends State<RegisterPassword> {
               errorMessage: _authController.emailError.value,
             ),),
 
-            SizedBox(height: 18,),
+            const SizedBox(height: 18,),
 
              Obx(() => MainInput(text: 'Re-enter password',
                onChanged: (val){
@@ -55,18 +54,18 @@ class _RegisterPasswordState extends State<RegisterPassword> {
                errorMessage: _authController.emailError.value,
              ),),
 
-            SizedBox(height: 48,),
+            const SizedBox(height: 48,),
 
             Row(
               children: [
                 Expanded(
                   child: PrimaryButton(
-                    buttonColor:  Color(0x0C1D1D1F),
+                    buttonColor:  const Color(0x0C1D1D1F),
                     textColor: Colors.black,
 
                     text: 'back',
                     onTap: () {
-                      Get.to(RegisterEmail());
+                      Get.to(const RegisterEmail());
 
                     },),
                 ),
@@ -79,7 +78,7 @@ class _RegisterPasswordState extends State<RegisterPassword> {
                           _authController.secondPassword.value);
                       if(_authController.emailError.value == ""
                           && _authController.password.value != ""){
-                        Get.to(RegisterBirthday());
+                        Get.to( const RegisterBirthday());
                       }
 
 

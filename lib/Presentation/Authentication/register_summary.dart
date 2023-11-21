@@ -38,10 +38,10 @@ class _RegisterSummaryState extends State<RegisterSummary> {
             MainInput(text: 'surname',label: _authController.surname.value,enabled: false),
             SizedBox(height: 18,),
             MainInput(text: 'email',label: _authController.email.value,enabled: false,),
-            SizedBox(height: 18,),
+            const SizedBox(height: 18,),
             MainInput(text: 'password',label: _authController.password.value,
               enabled: false,),
-            SizedBox(height: 18,),
+            const SizedBox(height: 18,),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: AppText.smallBold("Date of Birth:"),

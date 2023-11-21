@@ -2,12 +2,17 @@
 
 
 
+import 'package:desiree/Services/firebase_auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 import '../Presentation/Authentication/register_email.dart';
 import '../Presentation/Authentication/register_screen.dart';
 
 class AuthController extends GetxController {
+  final FirebaseAuthService _authService = FirebaseAuthService();
+
+    Rx<UserCredential?> user = Rx<UserCredential?>(null);
 
     RxString email = "".obs;
     RxString secondEmail = "".obs;
@@ -116,6 +121,43 @@ class AuthController extends GetxController {
       }
 
     }
+
+
+    Future<bool> signUpWithGoogle() async {
+      bool funValue = false;
+      await _authService.signUpWithGoogle().then((value){
+        if(value !=null){
+          user.value = value;
+          funValue  =  true;
+        }
+        else{
+          funValue = false;
+        }
+      });
+      return funValue;
+    }
+
+
+  Future<bool> signInWithGoogle() async {
+      bool funValue = false;
+    await _authService.signInWithGoogle().then((value) {
+      print("the value of auth service is ${value}");
+
+      if(value !=null){
+        user.value = value;
+        funValue  =  true;
+      }
+      else{
+        funValue = false;
+      }
+
+      });
+      print("the value of auth service is ${funValue}");
+      return funValue;
+
+
+
+  }
 
 
 

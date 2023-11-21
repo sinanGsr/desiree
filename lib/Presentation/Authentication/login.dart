@@ -73,7 +73,23 @@ class _LoginState extends State<Login> {
            Row(
              mainAxisAlignment: MainAxisAlignment.center,
              children: [
-               SocialButtons("Google",path: 'assets/svgs/google.svg'),
+               SocialButtons("Google",path: 'assets/svgs/google.svg',
+               onPress: () async {
+
+                await _authController.signInWithGoogle().then((value){
+                  if(value){
+                    Get.snackbar("Auth Message",
+                        "Login Successful");
+                  }
+                  else{
+                    Get.snackbar("Auth Message",
+                        "User does not exist");
+
+                  }
+                });
+
+               }
+               ),
                SizedBox(width: 30,),
                SocialButtons("Facebook",path: 'assets/svgs/twitter.svg'),
                SizedBox(width: 30,),
@@ -85,7 +101,9 @@ class _LoginState extends State<Login> {
 
             SizedBox(height: 30,),
 
-            bottomBox("Don’t have account?","register",(){})
+            bottomBox("Don’t have account?","register",(){
+              Get.to(const RegisterScreen());
+            })
 
 
 

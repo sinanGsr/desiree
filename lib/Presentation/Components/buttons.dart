@@ -34,12 +34,14 @@ class PrimaryButton extends StatelessWidget {
   }
 }
 
-
-InkWell SocialButtons(String text,{String path = 'assets/svgs/logos_apple.svg' }) {
+void _defaultOnPress(){
+  print("{onPress}");
+}
+InkWell SocialButtons(String text,{String path = 'assets/svgs/logos_apple.svg',Function onPress = _defaultOnPress}) {
   return InkWell(
     splashColor: Colors.red,
     onTap: (){
-
+      onPress();
     },
     child: Column(
       children: [
@@ -55,7 +57,10 @@ InkWell SocialButtons(String text,{String path = 'assets/svgs/logos_apple.svg' }
       ],
     ),
   );
+
 }
+
+
 
 Container bottomBox(String text,String buttonText,Function onTap) {
   return Container(

@@ -2,7 +2,7 @@
 import 'package:desiree/Presentation/Authentication/register_password.dart';
 import 'package:desiree/Presentation/Authentication/register_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
+
 import 'package:get/get.dart';
 
 import '../../Controllers/authentication_controller.dart';
