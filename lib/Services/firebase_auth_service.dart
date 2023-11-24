@@ -16,6 +16,25 @@ class FirebaseAuthService{
   User? get currentUser => _auth.currentUser;
 
 
+  Future<UserCredential?> signUpWithEmailAndPassword(String email, String password,String name,
+      int dob,String surname) async {
+    try {
+      UserCredential authResult = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      // Save user data in Firestore
+      await _saveUserData(authResult.user!,password:password );
+
+      return authResult;
+    }  catch (e) {
+
+      print('Error signing up: $e');
+      rethrow;
+
+    }
+  }
 
 
   Future<UserCredential?> signInWithEmailAndPassword(
@@ -79,7 +98,7 @@ class FirebaseAuthService{
         );
 
         UserCredential authResult = await _auth.signInWithCredential(credential);
-        await _saveUserData(authResult.user!);
+        // await _saveUserData(authResult.user!);
 
 
         return authResult;
@@ -95,7 +114,7 @@ class FirebaseAuthService{
   
 
 
-  Future<void> _saveUserData(User user) async {
+  Future<void> _saveUserData(User user,{String? password}) async {
     final DocumentSnapshot userDoc =
     await _userCollection.doc(user.uid).get();
 
@@ -105,6 +124,7 @@ class FirebaseAuthService{
         'id':user.uid,
         'email': user.email,
         'username': user.displayName ?? '',
+        'password': password ?? ''
         // You can add more user data fields as needed
       });
     }

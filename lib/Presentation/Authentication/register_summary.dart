@@ -16,6 +16,7 @@ class RegisterSummary extends StatefulWidget {
 
   @override
   State<RegisterSummary> createState() => _RegisterSummaryState();
+
 }
 
 class _RegisterSummaryState extends State<RegisterSummary> {
@@ -120,7 +121,9 @@ class _RegisterSummaryState extends State<RegisterSummary> {
             ),
             PrimaryButton(text: 'Create Account',
                 onTap: (){
-
+                  if(_checkValue){
+                    _authController.signUpWithEmailPassword();
+                  }
                 }),
             PrimaryButton(
                 buttonColor: Color(0x0C1D1D1F),

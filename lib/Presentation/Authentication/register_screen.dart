@@ -2,6 +2,7 @@
 
 import 'package:desiree/Presentation/Authentication/login.dart';
 import 'package:desiree/Presentation/Authentication/register_email.dart';
+import 'package:desiree/Presentation/Authentication/register_summary.dart';
 import 'package:desiree/Presentation/Components/background.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -70,7 +71,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SocialButtons("Google",path: 'assets/svgs/google.svg'),
+                SocialButtons("Google",path: 'assets/svgs/google.svg',onPress: (){
+                  _authController.signUpWithGoogle().then((value) => {
+                    if(value){
+                     Get.to(RegisterSummary())
+                    }
+                    else{
+                      Get.snackbar('Auth Message',
+                          "SignUp with Google Failed")
+                  }
+                  });
+                }),
                 SizedBox(width: 30,),
                 SocialButtons("Facebook",path: 'assets/svgs/twitter.svg'),
                 SizedBox(width: 30,),

@@ -8,6 +8,15 @@ class CustomTextStyle{
 
   );
 
+  static const TextStyle labelSmall = TextStyle(
+    fontSize: 20,
+    fontFamily: 'Montserrat',
+    fontWeight: FontWeight.w700,
+
+  );
+
+
+
   static const TextStyle small = TextStyle(
     fontSize: 18,
     fontFamily: 'Montserrat',
@@ -39,6 +48,20 @@ class AppText {
       overflow: overflow,
       textAlign: textAlign,
       style: CustomTextStyle.label.copyWith(color: color),
+    );
+  }
+  static Widget labelSmall(String text, {
+    int? maxLines,
+    TextOverflow? overflow,
+    TextAlign textAlign = TextAlign.start,
+    Color color = Colors.black, // Specify the default color as black
+  }) {
+    return Text(
+      text,
+      maxLines: maxLines,
+      overflow: overflow,
+      textAlign: textAlign,
+      style: CustomTextStyle.labelSmall.copyWith(color: color),
     );
   }
 

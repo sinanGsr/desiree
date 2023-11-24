@@ -2,6 +2,7 @@
 
 
 
+import 'package:desiree/Presentation/BottomNavigation/bottom_navigation.dart';
 import 'package:desiree/Services/firebase_auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
@@ -47,7 +48,12 @@ class AuthController extends GetxController {
       }
 
       else {
-        Get.to(const RegisterScreen());
+        signInWithEmailPassword().then((value) => {
+          if(value){
+            Get.snackbar("Auth Message", "Login Successful"),
+            Get.to(BottomNavigationScreen()),
+          }
+        });
         print("Password Error and email");
       }
     }
@@ -128,6 +134,10 @@ class AuthController extends GetxController {
       await _authService.signUpWithGoogle().then((value){
         if(value !=null){
           user.value = value;
+          setEmail(value.user!.email.toString());
+          setName(value.user!.displayName.toString());
+          setPassword("Not required");
+
           funValue  =  true;
         }
         else{
@@ -155,7 +165,36 @@ class AuthController extends GetxController {
       print("the value of auth service is ${funValue}");
       return funValue;
 
+  }
 
+  Future<bool> signUpWithEmailPassword() async {
+    bool funValue = false;
+    await _authService.signUpWithEmailAndPassword(email.value, password.value,
+        name.value, date.value, surname.value).then((value){
+      if(value !=null){
+        user.value = value;
+        funValue  =  true;
+      }
+      else{
+        funValue = false;
+      }
+    });
+    return funValue;
+
+  }
+
+  Future<bool> signInWithEmailPassword() async {
+    bool funValue = false;
+    await _authService.signInWithEmailAndPassword(email.value, password.value).then((value){
+      if(value !=null){
+        user.value = value;
+        funValue  =  true;
+      }
+      else{
+        funValue = false;
+      }
+    });
+    return funValue;
 
   }
 
