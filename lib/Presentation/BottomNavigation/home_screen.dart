@@ -1,6 +1,8 @@
+import 'package:desiree/Controllers/home_controller.dart';
 import 'package:desiree/Presentation/TextConfig/text_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,6 +12,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  final HomeController _homeController = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             Container(
+              padding: EdgeInsets.symmetric(horizontal: 10,vertical: 30),
               height: 400,
               width: double.infinity,
               decoration: BoxDecoration(
@@ -42,9 +47,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   Row(
                     children: [
                       CircleAvatar(
+                        radius: 30,
                         
                       ),
-                      AppText.labelSmall('Hello sanan')
+                      SizedBox(width: 10,),
+                      AppText.labelSmall('Hello sanan!'),
+
                     ],
                   ),
                   const Text(
@@ -178,7 +186,12 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _homeController.uploadHobbies().then((value) =>
+                    Get.snackbar('Alert',
+                        'Hobbies Uploaded')
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(
                         0xfff8b600), // Set the button color to yellow

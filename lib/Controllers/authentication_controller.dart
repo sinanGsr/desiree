@@ -8,7 +8,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 import '../Presentation/Authentication/register_email.dart';
-import '../Presentation/Authentication/register_screen.dart';
 
 class AuthController extends GetxController {
   final FirebaseAuthService _authService = FirebaseAuthService();
