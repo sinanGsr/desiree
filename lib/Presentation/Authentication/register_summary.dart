@@ -5,7 +5,9 @@
 import 'package:desiree/Presentation/Components/background.dart';
 import 'package:desiree/Presentation/Components/buttons.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../../Controllers/authentication_controller.dart';
 import '../Components/text_inputs.dart';
 import '../TextConfig/text_config.dart';
 
@@ -14,10 +16,12 @@ class RegisterSummary extends StatefulWidget {
 
   @override
   State<RegisterSummary> createState() => _RegisterSummaryState();
+
 }
 
 class _RegisterSummaryState extends State<RegisterSummary> {
   bool _checkValue = false;
+  final AuthController _authController = Get.put(AuthController());
   @override
   Widget build(BuildContext context) {
     return BackgroundWidget(
@@ -28,14 +32,17 @@ class _RegisterSummaryState extends State<RegisterSummary> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            MainInput(text: 'Name',label: "Jhon",enabled: false,),
+            MainInput(text: 'Name',label: _authController.name.value,enabled: false,
+
+            ),
             SizedBox(height: 18,),
-            MainInput(text: 'surname',label: "Doe",enabled: false,),
+            MainInput(text: 'surname',label: _authController.surname.value,enabled: false),
             SizedBox(height: 18,),
-            MainInput(text: 'email',label: "JDoe@gmail.com",enabled: false,),
-            SizedBox(height: 18,),
-            MainInput(text: 'password',label: "Doe123456",enabled: false,),
-            SizedBox(height: 18,),
+            MainInput(text: 'email',label: _authController.email.value,enabled: false,),
+            const SizedBox(height: 18,),
+            MainInput(text: 'password',label: _authController.password.value,
+              enabled: false,),
+            const SizedBox(height: 18,),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: AppText.smallBold("Date of Birth:"),
@@ -103,6 +110,7 @@ class _RegisterSummaryState extends State<RegisterSummary> {
                     _checkValue = !_checkValue;
                   });
 
+
                 }),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.60,
@@ -113,7 +121,9 @@ class _RegisterSummaryState extends State<RegisterSummary> {
             ),
             PrimaryButton(text: 'Create Account',
                 onTap: (){
-
+                  if(_checkValue){
+                    _authController.signUpWithEmailPassword();
+                  }
                 }),
             PrimaryButton(
                 buttonColor: Color(0x0C1D1D1F),

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "90139462627",
+    "project_id": "desire-e0885",
+    "storage_bucket": "desire-e0885.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:90139462627:android:a5a8292858b867ec32aed6",
+        "android_client_info": {
+          "package_name": "com.example.desiree"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7nU4ro8cjOE3VrwyaBLVptXAJUbQVvCQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

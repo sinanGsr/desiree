@@ -2,10 +2,12 @@
 
 import 'package:desiree/Presentation/Authentication/login.dart';
 import 'package:desiree/Presentation/Authentication/register_email.dart';
+import 'package:desiree/Presentation/Authentication/register_summary.dart';
 import 'package:desiree/Presentation/Components/background.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../Controllers/authentication_controller.dart';
 import '../Components/buttons.dart';
 import '../Components/text_inputs.dart';
 import '../TextConfig/text_config.dart';
@@ -18,6 +20,9 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+
+  final AuthController _authController = Get.put(AuthController());
+
   @override
   Widget build(BuildContext context) {
     return BackgroundWidget(
@@ -31,16 +36,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
             const SizedBox(height: 10,),
             AppText.small('You can Change it Later',color: Color(0xFF727272)),
             SizedBox(height: 48,),
-            MainInput(text: 'Name'),
+            Obx(() => MainInput(text: 'Name',
+              onChanged: (val){
+                _authController.setName(val);
+              },
+              errorMessage: _authController.nameError.value,
+            ),),
             SizedBox(height: 18,),
-            MainInput(text: 'Surname'),
+            Obx(() => MainInput(text: 'Surname',
+              onChanged: (val){
+                _authController.setSurName(val);
+              },
+              errorMessage: _authController.surnameError.value,
+            ),),
+
             SizedBox(height: 10,),
 
             SizedBox(height: 48,),
 
             PrimaryButton(text: 'Next',
               onTap: () {
-              Get.to(RegisterEmail());
+              _authController.validateNameAndSurname();
 
               },),
 
@@ -55,7 +71,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SocialButtons("Google",path: 'assets/svgs/google.svg'),
+                SocialButtons("Google",path: 'assets/svgs/google.svg',onPress: (){
+                  _authController.signUpWithGoogle().then((value) => {
+                    if(value){
+                     Get.to(RegisterSummary())
+                    }
+                    else{
+                      Get.snackbar('Auth Message',
+                          "SignUp with Google Failed")
+                  }
+                  });
+                }),
                 SizedBox(width: 30,),
                 SocialButtons("Facebook",path: 'assets/svgs/twitter.svg'),
                 SizedBox(width: 30,),

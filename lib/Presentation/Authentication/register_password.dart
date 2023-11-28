@@ -4,11 +4,11 @@
 
 import 'package:desiree/Presentation/Authentication/register_birthday.dart';
 import 'package:desiree/Presentation/Authentication/register_email.dart';
-import 'package:desiree/Presentation/Authentication/register_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
+
 import 'package:get/get.dart';
 
+import '../../Controllers/authentication_controller.dart';
 import '../Components/background.dart';
 import '../Components/buttons.dart';
 import '../Components/text_inputs.dart';
@@ -23,6 +23,7 @@ class RegisterPassword extends StatefulWidget {
 }
 
 class _RegisterPasswordState extends State<RegisterPassword> {
+  final AuthController _authController = Get.put(AuthController());
   @override
   Widget build(BuildContext context) {
     return BackgroundWidget(
@@ -37,22 +38,34 @@ class _RegisterPasswordState extends State<RegisterPassword> {
             const SizedBox(height: 10,),
             AppText.small('It’ll be used only for verification and logging in.',color: Color(0xFF727272)),
             SizedBox(height: 48,),
-            MainInput(text: 'Password'),
-            SizedBox(height: 18,),
-            MainInput(text: 'Re-enter password'),
+            Obx(() => MainInput(text: 'Password',
+              onChanged: (val){
+                _authController.setPassword(val);
+              },
+              errorMessage: _authController.emailError.value,
+            ),),
 
-            SizedBox(height: 48,),
+            const SizedBox(height: 18,),
+
+             Obx(() => MainInput(text: 'Re-enter password',
+               onChanged: (val){
+                 _authController.setSecondPassword(val);
+               },
+               errorMessage: _authController.emailError.value,
+             ),),
+
+            const SizedBox(height: 48,),
 
             Row(
               children: [
                 Expanded(
                   child: PrimaryButton(
-                    buttonColor:  Color(0x0C1D1D1F),
+                    buttonColor:  const Color(0x0C1D1D1F),
                     textColor: Colors.black,
 
                     text: 'back',
                     onTap: () {
-                      Get.to(RegisterEmail());
+                      Get.to(const RegisterEmail());
 
                     },),
                 ),
@@ -61,7 +74,13 @@ class _RegisterPasswordState extends State<RegisterPassword> {
                   child: PrimaryButton(
                     text: 'Next',
                     onTap: () {
-                      Get.to(RegisterBirthday());
+                      _authController.validateForTwoEmails(_authController.password.value,
+                          _authController.secondPassword.value);
+                      if(_authController.emailError.value == ""
+                          && _authController.password.value != ""){
+                        Get.to( const RegisterBirthday());
+                      }
+
 
                     },),
                 ),

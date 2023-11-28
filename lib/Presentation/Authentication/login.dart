@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../Controllers/authentication_controller.dart';
 import '../Components/background.dart';
 import '../Components/buttons.dart';
 import '../Components/text_inputs.dart';
@@ -18,6 +19,9 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+
+  final AuthController _authController = Get.put(AuthController());
+
   @override
   Widget build(BuildContext context) {
     return BackgroundWidget(
@@ -33,9 +37,20 @@ class _LoginState extends State<Login> {
             AppText.small('Enter your credentials to continue.',color: Color(0xFF727272)),
             SizedBox(height: 48,),
 
-            MainInput(text: 'Email'),
+            Obx(() => MainInput(text: 'Email',
+              onChanged: (val){
+              _authController.setEmail(val);
+              _authController.validateEmail();
+            },
+              errorMessage: _authController.emailError.value,
+            ),),
             SizedBox(height: 18,),
-            MainInput(text: 'Password'),
+            Obx(() => MainInput(
+              text: 'Password',onChanged: (val){
+              _authController.setPassword(val);
+            },
+              errorMessage: _authController.passwordError.value,
+            ),),
             SizedBox(height: 10,),
 
             AppText.micro('Forgot username/password?'),
@@ -44,7 +59,7 @@ class _LoginState extends State<Login> {
 
             PrimaryButton(text: 'Login',
               onTap: () {
-              Get.to(RegisterScreen());
+              _authController.validateEmailPasswordEmpty();
             },),
 
             SizedBox(height: 18,),
@@ -58,7 +73,23 @@ class _LoginState extends State<Login> {
            Row(
              mainAxisAlignment: MainAxisAlignment.center,
              children: [
-               SocialButtons("Google",path: 'assets/svgs/google.svg'),
+               SocialButtons("Google",path: 'assets/svgs/google.svg',
+               onPress: () async {
+
+                await _authController.signInWithGoogle().then((value){
+                  if(value){
+                    Get.snackbar("Auth Message",
+                        "Login Successful");
+                  }
+                  else{
+                    Get.snackbar("Auth Message",
+                        "User does not exist");
+
+                  }
+                });
+
+               }
+               ),
                SizedBox(width: 30,),
                SocialButtons("Facebook",path: 'assets/svgs/twitter.svg'),
                SizedBox(width: 30,),
@@ -70,7 +101,9 @@ class _LoginState extends State<Login> {
 
             SizedBox(height: 30,),
 
-            bottomBox("Don’t have account?","register",(){})
+            bottomBox("Don’t have account?","register",(){
+              Get.to(const RegisterScreen());
+            })
 
 
 
