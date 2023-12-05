@@ -1,11 +1,12 @@
 
 
-import 'package:desiree/Presentation/BottomNavigation/profile_screen.dart';
+import 'package:desiree/Presentation/Profile/profile_screen.dart';
 import 'package:desiree/Presentation/BottomNavigation/reels_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../Profile/hobbies_screen.dart';
 import '../TextConfig/text_config.dart';
 import 'desire_screen.dart';
 import 'home_screen.dart';
@@ -28,13 +29,20 @@ class BottomNavigationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Obx(
-            () {
-          return _buildScreen(controller.selectedScreen.value);
-        },
+    return WillPopScope(
+      onWillPop: () {
+        controller.changeSelectedScreen('home');
+        return Future(() => false);
+      },
+      child: Scaffold(
+
+        body: Obx(
+              () {
+            return _buildScreen(controller.selectedScreen.value);
+          },
+        ),
+        bottomNavigationBar: _buildBottomNavigationBar(),
       ),
-      bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
 
@@ -50,9 +58,10 @@ class BottomNavigationScreen extends StatelessWidget {
         return const DesireScreen();
       case 'P/profile':
         return const ProfileScreen();
+      case 'P/hobbies':
+        return const HobbiesScreen();
       default:
         return const HomeScreen();
-    // You can return an empty widget or handle it differently
     }
   }
 
@@ -91,8 +100,8 @@ class BottomNavigationScreen extends StatelessWidget {
 
 
         decoration: BoxDecoration(
-          color: controller.selectedScreen.value[0] == route[0] ? Color(0xffFFD700) : Colors.white,
-          borderRadius: BorderRadius.only(
+          color: controller.selectedScreen.value[0] == route[0] ? const Color(0xffFFD700) : Colors.white,
+          borderRadius: const BorderRadius.only(
             bottomLeft: Radius.circular(16),
             bottomRight: Radius.circular(16),
           ),

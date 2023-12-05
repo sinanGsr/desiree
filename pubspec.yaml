@@ -42,6 +42,11 @@ dependencies:
   firebase_auth: ^4.14.0
   google_sign_in: ^6.1.6
   cloud_firestore: ^4.13.1
+  flutter_native_splash: ^2.3.6
+flutter_native_splash:
+  color: "#377dff"
+  image: assets/images/ic_launcher.png
+
 
 dev_dependencies:
   flutter_test:
