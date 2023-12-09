@@ -187,10 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                   onPressed: () {
-                    _homeController.uploadHobbies().then((value) =>
-                    Get.snackbar('Alert',
-                        'Hobbies Uploaded')
-                    );
+
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(
