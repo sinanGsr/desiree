@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
 class CustomTextStyle{
+  static const TextStyle header = TextStyle(
+    fontSize: 46,
+    fontFamily: 'Montserrat',
+    fontWeight: FontWeight.w500,
+
+  );
   static const TextStyle label = TextStyle(
     fontSize: 26,
     fontFamily: 'Montserrat',
@@ -13,6 +19,11 @@ class CustomTextStyle{
     fontFamily: 'Montserrat',
     fontWeight: FontWeight.w700,
 
+  );
+  static const TextStyle screenHeader = TextStyle(
+    fontSize: 16,
+    fontFamily: 'Montserrat',
+    fontWeight: FontWeight.w500,
   );
 
 
@@ -36,6 +47,20 @@ class CustomTextStyle{
 }
 
 class AppText {
+  static Widget header(String text, {
+    int? maxLines,
+    TextOverflow? overflow,
+    TextAlign textAlign = TextAlign.start,
+    Color color = Colors.black, // Specify the default color as black
+  }) {
+    return Text(
+      text,
+      maxLines: maxLines,
+      overflow: overflow,
+      textAlign: textAlign,
+      style: CustomTextStyle.header.copyWith(color: color),
+    );
+  }
   static Widget label(String text, {
     int? maxLines,
     TextOverflow? overflow,
@@ -62,6 +87,20 @@ class AppText {
       overflow: overflow,
       textAlign: textAlign,
       style: CustomTextStyle.labelSmall.copyWith(color: color),
+    );
+  }
+  static Widget screenHeader(String text, {
+    int? maxLines,
+    TextOverflow? overflow,
+    TextAlign textAlign = TextAlign.start,
+    Color color = Colors.black, // Specify the default color as black
+  }) {
+    return Text(
+      text,
+      maxLines: maxLines,
+      overflow: overflow,
+      textAlign: textAlign,
+      style: CustomTextStyle.screenHeader.copyWith(color: color),
     );
   }
 

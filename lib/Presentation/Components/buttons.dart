@@ -19,10 +19,10 @@ class PrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor:buttonColor ?? Color(0xffFFD700),
+          backgroundColor:buttonColor ?? Color(0xff377DFF),
           elevation: 1,
-          shadowColor: buttonColor??Color(0xffFFD700),
-          foregroundColor:buttonColor?? Color(0xffFFD700),
+          shadowColor: buttonColor??Color(0xff377DFF),
+          foregroundColor:buttonColor?? Color(0xff377DFF),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
         ),
         onPressed: (){
@@ -47,8 +47,8 @@ InkWell SocialButtons(String text,{String path = 'assets/svgs/logos_apple.svg',F
       children: [
         SvgPicture.asset(
           path,
-          width: 50,
-          height: 50,
+          width: 40,
+          height: 40,
           fit: BoxFit.cover,
 
         ),

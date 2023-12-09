@@ -1,10 +1,7 @@
-
-
-
-
 import 'package:desiree/Presentation/Authentication/register_birthday.dart';
 import 'package:desiree/Presentation/Authentication/register_email.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
 
@@ -15,90 +12,127 @@ import '../Components/text_inputs.dart';
 import '../TextConfig/text_config.dart';
 import 'login.dart';
 
-class RegisterPassword extends StatefulWidget {
-  const RegisterPassword({super.key});
+class RegisterPhoneNumber extends StatefulWidget {
+  const RegisterPhoneNumber({super.key});
 
   @override
-  State<RegisterPassword> createState() => _RegisterPasswordState();
+  State<RegisterPhoneNumber> createState() => _RegisterPhoneNumberState();
 }
 
-class _RegisterPasswordState extends State<RegisterPassword> {
+class _RegisterPhoneNumberState extends State<RegisterPhoneNumber> {
   final AuthController _authController = Get.put(AuthController());
   @override
   Widget build(BuildContext context) {
-    return BackgroundWidget(
-      header: "Register",
-      widget: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 38,vertical: 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AppText.label('Enter your password',color: Colors.black),
-            const SizedBox(height: 10,),
-            AppText.small('It’ll be used only for verification and logging in.',color: Color(0xFF727272)),
-            SizedBox(height: 48,),
-            Obx(() => MainInput(text: 'Password',
-              onChanged: (val){
-                _authController.setPassword(val);
-              },
-              errorMessage: _authController.emailError.value,
-            ),),
-
-            const SizedBox(height: 18,),
-
-             Obx(() => MainInput(text: 'Re-enter password',
-               onChanged: (val){
-                 _authController.setSecondPassword(val);
-               },
-               errorMessage: _authController.emailError.value,
-             ),),
-
-            const SizedBox(height: 48,),
-
-            Row(
+    double pixH = MediaQuery.of(context).size.height;
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.only(top: pixH * 0.08, left: 38, right: 38),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: PrimaryButton(
-                    buttonColor:  const Color(0x0C1D1D1F),
-                    textColor: Colors.black,
-
-                    text: 'back',
-                    onTap: () {
-                      Get.to(const RegisterEmail());
-
-                    },),
+                Center(
+                  child: AppText.header('Talky'),
                 ),
-                SizedBox(width: 10,),
-                Expanded(
-                  child: PrimaryButton(
-                    text: 'Next',
-                    onTap: () {
-                      _authController.validateForTwoEmails(_authController.password.value,
-                          _authController.secondPassword.value);
-                      if(_authController.emailError.value == ""
-                          && _authController.password.value != ""){
-                        Get.to( const RegisterBirthday());
-                      }
-
-
-                    },),
+                SizedBox(
+                  height: pixH * 0.06,
                 ),
+                Center(
+                  child: AppText.screenHeader('Enter your password',
+                      color: Colors.black),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  height: 45,
+                  width: double.infinity,
+                  decoration: ShapeDecoration(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(width: 1, color: Color(0xFFE8E8E8)),
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      SizedBox(width: 10,),
+                      Center(
+                        child: Container(
+                          width: 24,
+                          height: 19,
+                          clipBehavior: Clip.antiAlias,
+                          decoration: ShapeDecoration(
+                            color: Color(0xFFD9D9D9),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(1)),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10,),
+                      Container(
+                        height: 100,
+                        width: 1,
+                        color: Colors.grey,
+                      ),
+                      SizedBox(width: 10,),
+                      Expanded(
+                        child: Container(
+                          child: TextFormField(
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.digitsOnly,
+                              ],
+                            keyboardType: TextInputType.phone,
+                              decoration: const InputDecoration(
+                                  isCollapsed: true,
+                                  hintStyle: TextStyle(
+                                    color: Color(0xFFD9D9D9),
+                                    fontSize: 12,
+                                    fontFamily: 'Inter',
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  hintText: "enter number",
+                                  fillColor: Color(0x051D1D1F),
+                                  border: InputBorder.none)),
+                        ),
+                      )
+                      // TextFormField(
+                      //
+                      // )
+                    ],
+                  ),
+                ),
+
+                SizedBox(
+                  height: pixH * 0.36,
+                ),
+
+
+                     PrimaryButton(
+                        text: 'Next',
+                        onTap: () {
+                          _authController.validateForTwoEmails(
+                              _authController.password.value,
+                              _authController.secondPassword.value);
+                          if (_authController.emailError.value == "" &&
+                              _authController.password.value != "") {
+                            Get.to(const RegisterBirthday());
+                          }
+                        },
+                      ),
+
+
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.18,
+                ),
+                bottomBox("Already have account?", "Login", () {
+                  Get.to(Login());
+                }),
               ],
             ),
-
-
-            SizedBox(height: MediaQuery.of(context).size.height * 0.18,),
-
-            bottomBox("Already have account?","Login",(){
-              Get.to(Login());
-            }),
-
-
-          ],
+          ),
         ),
       ),
-
     );
   }
 }

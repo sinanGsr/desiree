@@ -1,6 +1,6 @@
 
 
-import 'package:desiree/Presentation/Authentication/register_password.dart';
+import 'package:desiree/Presentation/Authentication/register_number.dart';
 import 'package:desiree/Presentation/Authentication/register_screen.dart';
 import 'package:desiree/Presentation/Authentication/register_summary.dart';
 import 'package:flutter/material.dart';
@@ -113,7 +113,7 @@ class _RegisterBirthdayState extends State<RegisterBirthday> {
 
                     text: 'back',
                     onTap: () {
-                      Get.to(RegisterPassword());
+                      Get.to(RegisterPhoneNumber());
 
                     },),
                 ),
